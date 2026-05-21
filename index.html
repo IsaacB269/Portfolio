@@ -8,28 +8,78 @@
 </head>
 <body>
 
-  <!-- Section d'accroche -->
-<section class="container py-5 text-center">
-  <h1 class="display-4 fw-bold">Bonjour, je suis <span id="typed-text"></span><span class="cursor">|</span></h1>
-  <p class="lead text-muted mt-3">Développeur web créatif — je conçois des interfaces modernes et accessibles.</p>
-  <div class="mt-4">
-    <a href="projects.html" class="btn btn-dark me-3">Voir mes projets</a>
-    <a href="contact.html" class="btn btn-outline-dark">Me contacter</a>
+  <div class="wrap">
+  <canvas id="c"></canvas>
+
+  <div class="planet" style="width:90px;height:90px;background:#1D9E75;top:60px;right:80px;opacity:.7"></div>
+  <div class="ring" style="width:130px;height:130px;border-color:#1D9E7566;top:40px;right:60px"></div>
+  <div class="ring" style="width:160px;height:160px;border-color:#1D9E7533;top:25px;right:45px"></div>
+  <div class="planet" style="width:40px;height:40px;background:#993C1D;bottom:80px;left:60px;opacity:.5"></div>
+  <div class="ring" style="width:62px;height:62px;border-color:#D85A3066;bottom:69px;left:49px"></div>
+
+  <div class="content">
+    <div class="badge">// portfolio.dev</div>
+    <h1 class="hero-h">Je construis des<br><span id="tw"></span><span style="color:#534AB7;animation:cur .8s step-end infinite">_</span></h1>
+    <p class="sub">Développeur web — quelque part entre le code et le cosmos.</p>
+    <div class="actions">
+      <a href="projects.html" class="btn-a btn-fill">Voir mes projets</a>
+      <a href="contact.html" class="btn-a btn-out">Me contacter</a>
+    </div>
   </div>
-</section>
-  
-    <script>
-  const mots = ["Othmane.", "un développeur.", "un créatif."];
-  let mi = 0, ci = 0, del = false;
-  const el = document.getElementById('typed-text');
-  function type() {
-    const mot = mots[mi];
-    el.textContent = del ? mot.slice(0, --ci) : mot.slice(0, ++ci);
-    if (!del && ci === mot.length) setTimeout(() => { del = true; type(); }, 1200);
-    else if (del && ci === 0) { del = false; mi = (mi + 1) % mots.length; setTimeout(type, 300); }
-    else setTimeout(type, del ? 40 : 80);
+</div>
+
+   <script>
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+  const wrap = document.querySelector('.wrap');
+  let stars = [];
+
+  function resize() {
+    canvas.width = wrap.offsetWidth;
+    canvas.height = wrap.offsetHeight;
+    stars = Array.from({ length: 120 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.4 + .3,
+      a: Math.random(),
+      s: Math.random() * .015 + .003
+    }));
   }
-  type();
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(s => {
+      s.a += s.s;
+      if (s.a > 1 || s.a < 0) s.s *= -1;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${s.a * 0.9})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  draw();
+  window.addEventListener('resize', resize);
+
+  const words = ["interfaces.", "expériences.", "projets web.", "choses belles."];
+  let wi = 0, ci = 0, del = false, p = 0;
+  const el = document.getElementById('tw');
+
+  function type() {
+    if (p > 0) { p--; setTimeout(type, 80); return; }
+    const w = words[wi];
+    if (!del) {
+      el.textContent = w.slice(0, ++ci);
+      if (ci === w.length) { del = true; p = 25; }
+    } else {
+      el.textContent = w.slice(0, --ci);
+      if (ci === 0) { del = false; wi = (wi + 1) % words.length; p = 5; }
+    }
+    setTimeout(type, del ? 35 : 70);
+  }
+  setTimeout(type, 600);
 </script>
 </body>
 </html>
