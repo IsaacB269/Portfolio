@@ -1,0 +1,26 @@
+.navbar {
+  background: #222;
+  padding: 0.5em 0;
+}
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+.navbar li {
+  margin: 0 1em;
+}
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5em 1em;
+  transition: background 0.2s;
+  border-radius: 4px;
+}
+.nav-link:hover,
+.nav-link.active {
+  background: #4f8cff;
+  color: #fff;
+}

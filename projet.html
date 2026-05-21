@@ -7,6 +7,20 @@
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
+     <nav class="navbar">
+  <ul>
+    <li><a href="index.html" class="nav-link" id="nav-home">Accueil</a></li>
+    <li><a href="projet.html" class="nav-link" id="nav-projets">Projets</a></li>
+    <li><a href="contact.html" class="nav-link" id="nav-contact">Contact</a></li>
+  </ul>
+</nav>
+<script>
+  // Dynamique : surbrillance de la page active
+  const path = window.location.pathname;
+  if (path.endsWith('index.htm')) document.getElementById('nav-home').classList.add('active');
+  else if (path.endsWith('projet.html')) document.getElementById('nav-projets').classList.add('active');
+  else if (path.endsWith('contact.html')) document.getElementById('nav-contact').classList.add('active');
+</script>
     
 </body>
 </html>
